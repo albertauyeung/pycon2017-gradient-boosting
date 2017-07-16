@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<title>Deep Learning and Its Applications | Albert Au Yeung</title>
+
+<meta name="description" content="Deep Learning and Its Applications">    
+
+  <meta name="author" content="None" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/custom.css" id="theme">
+
+
+<!-- For syntax highlighting -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+
+<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+<script>
+  document.write( '<link rel="stylesheet" href="css/print/' +
+    ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + 
+    '.css" type="text/css" media="print">' );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<style type="text/css">
+p { text-align: left; }
+</style>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section>
+  <small style="color: #555555"></small><br/>
+  <h2>Deep Learning and Its Applications</h2>
+  <br/>
+  <h4>
+    Research Seminar<br/>
+    Deep Learning Research & Application Centre (DLC)<br/>
+    Hang Seng Management College</h4>
+  <br/><br/><br/>
+
+  <div style="text-align: right; line-height: 1.2em">
+    <span style="font-size: 0.8em;">Albert Au Yeung</span><br/>
+    <span style="font-size: 0.6em;">20th, July, 2017</span>
+  </div>
+</section>
+
+
+<section id="agenda" class="level2">
+<h2>Agenda</h2>
+<ul>
+<li>What is <strong>deep learning</strong>?</li>
+<li>What can deep learning be <strong>used for</strong>?</li>
+<li><strong>How</strong> can we use deep learning?</li>
+<li><strong>Applications</strong> of deep learning</li>
+<li>Machine learning and <strong>Social Science</strong></li>
+</ul>
+</section>
+<section id="about-me" class="level2">
+<h2>About Me</h2>
+<ul>
+<li>Lead Engineer in Machine Learning at <a href="http://www.zwoop.biz">Zwoop</a></li>
+<li>Co-founder of <a href="http://www.axon-labs.com">Axon Labs Ltd</a>.</li>
+<li>Research positions at <a href="http://www.kecl.ntt.co.jp/rps/index.html">NTT CSLab</a>, <a href="https://www.astri.org/">ASTRI</a>, <a href="http://www.noahlab.com.hk/">Huawei Noah's Ark Lab</a></li>
+<li>Research interests and experience:
+<ul>
+<li>Machine learning, natural language processing and social network analysis</li>
+<li>Consumer behaviour analysis and recommendation systems</li>
+<li>Image search engine based on deep learning</li>
+<li>Computational history and social science</li>
+</ul></li>
+</ul>
+</section>
+<section id="trend" class="level2">
+<h2>Trend</h2>
+<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/1064_RC03/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"deep learning","geo":"","time":"2010-01-01 2017-07-01"},{"keyword":"machine learning","geo":"","time":"2010-01-01 2017-07-01"},{"keyword":"artificial intelligence","geo":"","time":"2010-01-01 2017-07-01"}],"category":0,"property":""}, {"exploreQuery":"date=2010-01-01%202017-07-01&q=deep%20learning,machine%20learning,artificial%20intelligence","guestPath":"https://trends.google.com:443/trends/embed/"}); </script> 
+
+</section>
+<section id="what-is-deep-learning" class="level2">
+<h2>What is Deep Learning?</h2>
+<ul>
+<li>A branch of machine learning that makes use of <strong>artificial neural network</strong> for learning</li>
+<li>New methods for training a deep neural network
+<ul>
+<li>Layer-wise <strong>pre-training</strong> (<a href="https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf">Hinton et al., 2006</a>)</li>
+</ul></li>
+<li>New structures of multi-layer neural networks:
+<ul>
+<li><strong>Convolutional</strong> NN (<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">LeCun et al. 1998</a>)</li>
+<li><strong>Recurrent</strong> NN (<a href="ftp://ftp.idsia.ch/pub/juergen/TimeCount-IJCNN2000.pdf">Gers and Schmidhuber, 2000</a>)</li>
+<li><strong>Attention</strong> Mechanism (<a href="https://papers.nips.cc/paper/5542-recurrent-models-of-visual-attention.pdf">Mnih et al. 2014</a>)</li>
+</ul></li>
+</ul>
+</section>
+<section id="computer-vision" class="level2">
+<h2>Computer Vision</h2>
+<ul>
+<li>Computer vision in the old days rely heavily on specific feature extraction methods</li>
+<li>Examples of feature detection methods:
+<ul>
+<li><a href="http://hanzratech.in/2015/05/30/local-binary-patterns.html">Local binary patterns (LBP)</a></li>
+<li>Scale-Invariant Feature Transform (SIFT) (<a href="https://www.cs.ubc.ca/~lowe/papers/ijcv04.pdf">Lowe, 2004</a>)</li>
+</ul></li>
+</ul>
+<center>
+<br/> <img src="img/bagoffeatures_visualwordsoverview.png" width="75%"/><br/> <span style="font-size: 16px;">Ref: <a href="http://www.mathworks.com/help/vision/ug/image-classification-with-bag-of-visual-words.html">Image Classification with Bag of Visual Words - MathWorks</a></span>
+</center>
+
+</section>
+<section id="convolutional-neural-network-cnn" class="level2">
+<h2>Convolutional Neural Network (CNN)</h2>
+<ul>
+<li>Instead of fully connected layers, a CNN also involves layers that are only partially connected to the previous or the next (<strong>kernels</strong> or <strong>filters</strong> or <strong>feature detectors</strong>)</li>
+<li>Filters of different sizes are applied to the whole image to extract features useful for the task</li>
+<li>Representation learning (e.g. automatic feature extraction from images)</li>
+</ul>
+<center>
+<img src="img/lecun98.png" width="85%"/><br/> <span style="font-size: 16px;">Ref: <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">Gradient-Based Learning Applied to Document Recognition (LeCun et al., 1998)</a></span>
+</center>
+
+</section>
+<section id="convolutional-neural-network-cnn-1" class="level2">
+<h2>Convolutional Neural Network (CNN)</h2>
+<ul>
+<li>Huge improvement in the image classification task on <a href="http://www.image-net.org/">ImageNet</a></li>
+</ul>
+<center>
+<img src="img/image-net-error-rate.png" width="75%"><br/> <span style="font-size: 16px;">Ref: <a href="https://medium.com/global-silicon-valley/machine-learning-yesterday-today-tomorrow-3d3023c7b519">Musings on Deep Learning. Li Jiang, 2014</a></span>
+</center>
+
+</section>
+<section id="recurrent-neural-network-rnn" class="level2">
+<h2>Recurrent Neural Network (RNN)</h2>
+<ul>
+<li>Extending neural network to handle <strong>sequential inputs</strong> (e.g. language, time-series data, speech and audio signals, etc.)</li>
+<li>Outputs depend on previous computations</li>
+<li>Drastically outperform traditional approaches in certain domains (e.g. <a href="https://arxiv.org/abs/1412.5567">Deep Speech (Hannun et al., 2014)</a>)</li>
+</ul>
+<center>
+<img src="img/rnn-unrolled.png" width="80%"/><br/> <span style="font-size: 16px;">Ref: <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks (Colab, 2015)</a></span>
+</center>
+
+</section>
+<section id="attention-mechanism" class="level2">
+<h2>Attention Mechanism</h2>
+<ul>
+<li>Focusing on a certain area / period of an input when trying to predict the outputs</li>
+<li>Found particularly useful when performing <strong>machine translation</strong> or <strong>image caption</strong> generation</li>
+</ul>
+<center>
+<img src="img/vision-attention.png" width="90%"/><br/> <span style="font-size: 16px;">Ref: <a href="http://www.jmlr.org/proceedings/papers/v37/xuc15.pdf">Show, Attend and Tell: Neural Image Caption Generation with Visual Attention (Xu et al., 2015)</a></span>
+</center>
+
+</section>
+<section id="latest-research-in-dl---vision" class="level2">
+<h2>Latest Research in DL - Vision</h2>
+<p>Colourisation of black and white images/videos <a href="http://hi.cs.waseda.ac.jp/~iizuka/projects/colorization/en/">(Iizuka et al. 2016)</a></p>
+<center>
+<img src="img/dl_application_colourisation.png" width="90%">
+</center>
+
+</section>
+<section id="latest-research-in-dl---vision-1" class="level2">
+<h2>Latest Research in DL - Vision</h2>
+<p>Neural Style / Style Transfer <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf">(Gatys et al. 2016)</a> Source code available on <a href="https://github.com/cysmith/neural-style-tf">Github</a></p>
+<center>
+<img src="img/neural-style.png" width="70%">
+</center>
+
+</section>
+<section id="latest-research-in-dl---speech" class="level2">
+<h2>Latest Research in DL - Speech</h2>
+<p>Synthesizing Obama: Learning Lip Sync from Audio <a href="http://grail.cs.washington.edu/projects/AudioToObama/">(Suwajankorn et al. 2017)</a></p>
+<center>
+<img src="img/obama.png" width="40%"/>
+</center>
+
+</section>
+<section id="latest-research-in-dl---language" class="level2">
+<h2>Latest Research in DL - Language</h2>
+<p>Character Sequence Models for Colorful Words <a href="http://www.colorlab.us">(Kawakami et al. 2016)</a></p>
+<center>
+<img src="img/colorlab.png" width="80%"/>
+</center>
+
+</section>
+<section id="what-can-dl-be-used-for" class="level2">
+<h2>What can DL be Used for?</h2>
+<p>Deep learning is mainly used to perform one of the following two tasks:</p>
+<ul>
+<li>Classification
+<ul>
+<li>Object recognition</li>
+<li>Speaker recognition</li>
+<li>Document classification</li>
+<li>Reinforcement learning</li>
+</ul></li>
+<li>Transformation
+<ul>
+<li>Structured prediction (sequence-to-sequence)</li>
+<li>Machine translation</li>
+<li>Image filters</li>
+</ul></li>
+</ul>
+</section>
+<section id="how-can-we-use-dl" class="level2">
+<h2>How can we use DL?</h2>
+<p>Training a deep neural network usually requires a huge amount of data. For example, the CNNs such as VGG16 and Inception V3 are trained on the ImageNet dataset with <strong>~1.2 million</strong> images of <strong>1,000 different classes</strong>.</p>
+<ul>
+<li>How can one start with DL:
+<ul>
+<li>collect enough data to start with!</li>
+<li>use pre-trained models directly</li>
+<li>use pre-trained models and do fine-tuning, a.k.a. <strong>transfer learning</strong></li>
+</ul></li>
+</ul>
+</section>
+<section id="transfer-learning" class="level2">
+<h2>Transfer Learning</h2>
+<ul>
+<li>For common tasks such as image classification, it is likely that filters (feature extractors) trained on one datasets are useful on many other datasets as well</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Transfer_learning">Transfer learning</a> refers to the task of applying knowledge gained in one problem to another different but related problem</p></li>
+<li>Transfer learning in deep learning
+<ol type="1">
+<li>Using a pre-trained neural nework as a <strong>feature extractor</strong></li>
+<li>Perform fine-tuning on a pre-trained network</li>
+</ol></li>
+<li><p>Ref: <a href="http://cs231n.github.io/transfer-learning/">http://cs231n.github.io/transfer-learning/</a></p></li>
+</ul>
+</section>
+<section id="transfer-learning-2" class="level2">
+<h2>Transfer Learning (2)</h2>
+<center>
+<img src="img/transfer_learning.png" width="95%"/><br/> <span style="font-size: 16px;">Ref: Learning and Transferring Mid-Level Image Representations using Convolutional Neural Networks <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Oquab_Learning_and_Transferring_2014_CVPR_paper.pdf">(Oquab et al., 2014)</a></span>
+</center>
+
+</section>
+<section id="example-of-transfer-learning" class="level2">
+<h2>Example of Transfer Learning</h2>
+<ul>
+<li><strong>TourLens</strong> - Recognize ~50 objects for <strong>tourists in Hong Kong</strong></li>
+<li>Transfer learning using pre-trained <strong>AlexNet</strong> on ImageNet</li>
+</ul>
+<center>
+<img src="img/tourlens.png" width="60%">
+</center>
+
+</section>
+<section id="common-deep-learning-frameworks" class="level2">
+<h2>Common Deep Learning Frameworks</h2>
+<p><a href="https://www.tensorflow.org/">Tensorflow</a> Torch, Theano, ... Keras Sony's framework MXnet</p>
+</section>
+<section id="applications-in-industry" class="level2">
+<h2>Applications in Industry</h2>
+</section>
+<section id="machine-learning-and-social-science" class="level2">
+<h2>Machine learning and Social Science</h2>
+<p>Machine learning is not only for solving computational problems, but can also be applied to study problems in humanities and social science</p>
+<ul>
+<li>The rise of computational humanities and computational social science</li>
+</ul>
+<p>Examples: <a href="https://blogit.utu.fi/propreau/">Profiling Premodern Authors</a></p>
+<p><a href="http://aclweb.org/anthology/P15-1063">Omnia Mutantur, Nihil Interit: Connecting Past with Present by Finding Corresponding Terms across Time</a> (Zhang et al. 2015)</p>
+<p><a href="http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf">Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining</a>(Au Yeung &amp; Jatowt, 2011)</p>
+<p><a href="https://ic2s2.org/2017/">International Conference on Computational Social Science</a></p>
+<p>http://www.cs.cmu.edu/<sub>dbamman/mlch.html http://www.cs.cmu.edu/</sub>dbamman/slides/mlch.pdf</p>
+<p>http://www.aka.fi/globalassets/32akatemiaohjelmat/digihum/programme_digihum_2017.pdf</p>
+</section>
+<section id="summary" class="level2">
+<h2>Summary</h2>
+<ul>
+<li>Deep learning is a powerful machine learning method for solving different tasks, especially when the problem can be defined as a <strong>classification</strong> or <strong>transformation</strong> problem</li>
+<li>Moving from feature engineering to <strong>'neural network engineering'</strong></li>
+<li>There are many <strong>open source deep learning frameworks</strong> that allow research and development in deep learning to be done more efficiently</li>
+<li>A lot of potential in applying deep learning to solve problems in humanities and social science</li>
+</ul>
+</section>
+<section id="the-end" class="level2">
+<h2>The End</h2>
+<p>Thank you for attending the seminar! Questions are welcome.</p>
+<p>Contact me at:</p>
+<ul>
+<li>Email: albertauyeung@gmail.com</li>
+<li>Homepage: <a href="http://www.albertauyeung.com">http://www.albertauyeung.com</a></li>
+</ul>
+</section>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: false,
+    slideNumber: 'c/t',
+    
+  // available themes are in /css/theme
+      theme: Reveal.getQueryHash().theme || 'custom', 
+    // default/cube/page/concave/zoom/linear/fade/none
+      transition: Reveal.getQueryHash().transition || 'none',
+    // Optional libraries used to extend on reveal.js
+  dependencies: [
+    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+    { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+  ]
+  });
+</script>
+
+</body>
+</html>
