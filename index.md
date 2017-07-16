@@ -39,6 +39,22 @@ What is Deep Learning?
     - **Recurrent** NN ([Gers and Schmidhuber, 2000](ftp://ftp.idsia.ch/pub/juergen/TimeCount-IJCNN2000.pdf))
     - **Attention** Mechanism  ([Mnih et al. 2014](https://papers.nips.cc/paper/5542-recurrent-models-of-visual-attention.pdf))
 
+What can DL be Used for?
+------------------------
+
+Deep learning is mainly used to perform one of the following two tasks:
+
+* Classification
+    - Object recognition
+    - Speaker recognition
+    - Document classification
+    - Reinforcement learning
+
+* Transformation
+    - Structured prediction (sequence-to-sequence)
+    - Machine translation
+    - Image filters
+
 Computer Vision
 ---------------
 
@@ -134,22 +150,6 @@ Character Sequence Models for Colorful Words [(Kawakami et al. 2016)](http://www
 <img src="img/colorlab.png" width="80%"/>
 </center>
 
-What can DL be Used for?
-------------------------
-
-Deep learning is mainly used to perform one of the following two tasks:
-
-* Classification
-    - Object recognition
-    - Speaker recognition
-    - Document classification
-    - Reinforcement learning
-
-* Transformation
-    - Structured prediction (sequence-to-sequence)
-    - Machine translation
-    - Image filters
-
 How can we use DL?
 ------------------
 
@@ -184,7 +184,8 @@ Example of Transfer Learning
 ----------------------------
 
 * **TourLens** - Recognize ~50 objects for **tourists in Hong Kong**
-* Transfer learning using pre-trained **AlexNet** on ImageNet
+* Around ~100 training images for each class
+* Transfer learning using pre-trained [**AlexNet**](https://en.wikipedia.org/wiki/AlexNet) on ImageNet
 
 <center>
 <img src="img/tourlens.png" width="60%">
@@ -193,47 +194,40 @@ Example of Transfer Learning
 Common Deep Learning Frameworks
 -------------------------------
 
-[Tensorflow](https://www.tensorflow.org/)
-Torch, Theano, ...
-Keras
-Sony's framework
-MXnet
-
-Applications in Industry
-------------------------
-
+* [Tensorflow](https://www.tensorflow.org/)
+* [Torch](http://torch.ch/)
+* [Theano](http://deeplearning.net/software/theano/)
+* [Nnabla](https://nnabla.org/)
+* [MXnet](http://mxnet.io/)
+* [Keras](https://keras.io)
+* ...
 
 Machine learning and Social Science
 -----------------------------------
 
 Machine learning is not only for solving computational problems, but can also be applied to study problems in humanities and social science
 
-- The rise of computational humanities and computational social science
+* The rise of computational humanities and computational social science
+* Examples:
+    - [Profiling Premodern Authors](https://blogit.utu.fi/propreau/)
+    - [Omnia Mutantur, Nihil Interit: Connecting Past with Present by Finding Corresponding Terms across Time](http://aclweb.org/anthology/P15-1063) (Zhang et al. 2015)
+    - [Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining](http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf)(Au Yeung & Jatowt, 2011)
 
-Examples:
-[Profiling Premodern Authors](https://blogit.utu.fi/propreau/)
-
-
-[Omnia Mutantur, Nihil Interit: Connecting Past with Present by Finding Corresponding Terms across Time](http://aclweb.org/anthology/P15-1063) (Zhang et al. 2015)
-
-[Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining](http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf)(Au Yeung & Jatowt, 2011)
-
+<!---
 [International Conference on Computational Social Science](https://ic2s2.org/2017/)
-
-
-
 http://www.cs.cmu.edu/~dbamman/mlch.html
 http://www.cs.cmu.edu/~dbamman/slides/mlch.pdf
 
 http://www.aka.fi/globalassets/32akatemiaohjelmat/digihum/programme_digihum_2017.pdf
+-->
 
 Summary
 -------
 
 * Deep learning is a powerful machine learning method for solving different tasks, especially when the problem can be defined as a **classification** or **transformation** problem
-* Moving from feature engineering to **'neural network engineering'**
+* Moving from feature engineering to [**'neural network engineering'**](https://research.googleblog.com/2017/05/using-machine-learning-to-explore.html)
 * There are many **open source deep learning frameworks** that allow research and development in deep learning to be done more efficiently
-* A lot of potential in applying deep learning to solve problems in humanities and social science
+* Can deep learning beuseful in solving problems in humanities and social science?
 
 The End
 -------
@@ -244,3 +238,4 @@ Contact me at:
 
 - Email: albertauyeung@gmail.com
 - Homepage: [http://www.albertauyeung.com](http://www.albertauyeung.com)
+- Github: [https://www.github.com/albertauyeung](https://www.github.com/albertauyeung])

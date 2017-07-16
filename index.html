@@ -107,6 +107,25 @@ p { text-align: left; }
 </ul></li>
 </ul>
 </section>
+<section id="what-can-dl-be-used-for" class="level2">
+<h2>What can DL be Used for?</h2>
+<p>Deep learning is mainly used to perform one of the following two tasks:</p>
+<ul>
+<li>Classification
+<ul>
+<li>Object recognition</li>
+<li>Speaker recognition</li>
+<li>Document classification</li>
+<li>Reinforcement learning</li>
+</ul></li>
+<li>Transformation
+<ul>
+<li>Structured prediction (sequence-to-sequence)</li>
+<li>Machine translation</li>
+<li>Image filters</li>
+</ul></li>
+</ul>
+</section>
 <section id="computer-vision" class="level2">
 <h2>Computer Vision</h2>
 <ul>
@@ -199,25 +218,6 @@ p { text-align: left; }
 </center>
 
 </section>
-<section id="what-can-dl-be-used-for" class="level2">
-<h2>What can DL be Used for?</h2>
-<p>Deep learning is mainly used to perform one of the following two tasks:</p>
-<ul>
-<li>Classification
-<ul>
-<li>Object recognition</li>
-<li>Speaker recognition</li>
-<li>Document classification</li>
-<li>Reinforcement learning</li>
-</ul></li>
-<li>Transformation
-<ul>
-<li>Structured prediction (sequence-to-sequence)</li>
-<li>Machine translation</li>
-<li>Image filters</li>
-</ul></li>
-</ul>
-</section>
 <section id="how-can-we-use-dl" class="level2">
 <h2>How can we use DL?</h2>
 <p>Training a deep neural network usually requires a huge amount of data. For example, the CNNs such as VGG16 and Inception V3 are trained on the ImageNet dataset with <strong>~1.2 million</strong> images of <strong>1,000 different classes</strong>.</p>
@@ -254,7 +254,8 @@ p { text-align: left; }
 <h2>Example of Transfer Learning</h2>
 <ul>
 <li><strong>TourLens</strong> - Recognize ~50 objects for <strong>tourists in Hong Kong</strong></li>
-<li>Transfer learning using pre-trained <strong>AlexNet</strong> on ImageNet</li>
+<li>Around ~100 training images for each class</li>
+<li>Transfer learning using pre-trained <a href="https://en.wikipedia.org/wiki/AlexNet"><strong>AlexNet</strong></a> on ImageNet</li>
 </ul>
 <center>
 <img src="img/tourlens.png" width="60%">
@@ -263,31 +264,44 @@ p { text-align: left; }
 </section>
 <section id="common-deep-learning-frameworks" class="level2">
 <h2>Common Deep Learning Frameworks</h2>
-<p><a href="https://www.tensorflow.org/">Tensorflow</a> Torch, Theano, ... Keras Sony's framework MXnet</p>
-</section>
-<section id="applications-in-industry" class="level2">
-<h2>Applications in Industry</h2>
+<ul>
+<li><a href="https://www.tensorflow.org/">Tensorflow</a></li>
+<li><a href="http://torch.ch/">Torch</a></li>
+<li><a href="http://deeplearning.net/software/theano/">Theano</a></li>
+<li><a href="https://nnabla.org/">Nnabla</a></li>
+<li><a href="http://mxnet.io/">MXnet</a></li>
+<li><a href="https://keras.io">Keras</a></li>
+<li>...</li>
+</ul>
 </section>
 <section id="machine-learning-and-social-science" class="level2">
 <h2>Machine learning and Social Science</h2>
 <p>Machine learning is not only for solving computational problems, but can also be applied to study problems in humanities and social science</p>
 <ul>
 <li>The rise of computational humanities and computational social science</li>
+<li>Examples:
+<ul>
+<li><a href="https://blogit.utu.fi/propreau/">Profiling Premodern Authors</a></li>
+<li><a href="http://aclweb.org/anthology/P15-1063">Omnia Mutantur, Nihil Interit: Connecting Past with Present by Finding Corresponding Terms across Time</a> (Zhang et al. 2015)</li>
+<li><a href="http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf">Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining</a>(Au Yeung &amp; Jatowt, 2011)</li>
+</ul></li>
 </ul>
-<p>Examples: <a href="https://blogit.utu.fi/propreau/">Profiling Premodern Authors</a></p>
-<p><a href="http://aclweb.org/anthology/P15-1063">Omnia Mutantur, Nihil Interit: Connecting Past with Present by Finding Corresponding Terms across Time</a> (Zhang et al. 2015)</p>
-<p><a href="http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf">Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining</a>(Au Yeung &amp; Jatowt, 2011)</p>
-<p><a href="https://ic2s2.org/2017/">International Conference on Computational Social Science</a></p>
-<p>http://www.cs.cmu.edu/<sub>dbamman/mlch.html http://www.cs.cmu.edu/</sub>dbamman/slides/mlch.pdf</p>
-<p>http://www.aka.fi/globalassets/32akatemiaohjelmat/digihum/programme_digihum_2017.pdf</p>
+<!---
+[International Conference on Computational Social Science](https://ic2s2.org/2017/)
+http://www.cs.cmu.edu/~dbamman/mlch.html
+http://www.cs.cmu.edu/~dbamman/slides/mlch.pdf
+
+http://www.aka.fi/globalassets/32akatemiaohjelmat/digihum/programme_digihum_2017.pdf
+-->
+
 </section>
 <section id="summary" class="level2">
 <h2>Summary</h2>
 <ul>
 <li>Deep learning is a powerful machine learning method for solving different tasks, especially when the problem can be defined as a <strong>classification</strong> or <strong>transformation</strong> problem</li>
-<li>Moving from feature engineering to <strong>'neural network engineering'</strong></li>
+<li>Moving from feature engineering to <a href="https://research.googleblog.com/2017/05/using-machine-learning-to-explore.html"><strong>'neural network engineering'</strong></a></li>
 <li>There are many <strong>open source deep learning frameworks</strong> that allow research and development in deep learning to be done more efficiently</li>
-<li>A lot of potential in applying deep learning to solve problems in humanities and social science</li>
+<li>Can deep learning beuseful in solving problems in humanities and social science?</li>
 </ul>
 </section>
 <section id="the-end" class="level2">
@@ -297,6 +311,7 @@ p { text-align: left; }
 <ul>
 <li>Email: albertauyeung@gmail.com</li>
 <li>Homepage: <a href="http://www.albertauyeung.com">http://www.albertauyeung.com</a></li>
+<li>Github: <a href="https://www.github.com/albertauyeung]">https://www.github.com/albertauyeung</a></li>
 </ul>
 </section>
 </div>
