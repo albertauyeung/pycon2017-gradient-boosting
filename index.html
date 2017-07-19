@@ -113,16 +113,17 @@ p { text-align: left; }
 <ul>
 <li>Classification
 <ul>
-<li>Object recognition</li>
-<li>Speaker recognition</li>
-<li>Document classification</li>
-<li>Reinforcement learning</li>
+<li>Object recognition (e.g. <a href="http://mmlab.ie.cuhk.edu.hk/resources/deep_learning/overview.pdf">Overview by Xiaogang Wang @ CUHK</a>)</li>
+<li>Speaker recognition (e.g. <a href="http://research.baidu.com/deep-speaker-end-end-system-large-scale-speaker-recognition/">Deep Speaker from Baidu Research</a>)</li>
+<li>Document classification (e.g. <a href="https://www.cs.cmu.edu/~diyiy/docs/naacl16.pdf">Yang et al. 2016</a>)</li>
+<li>Face recognition (e.g. <a href="https://research.fb.com/publications/deepface-closing-the-gap-to-human-level-performance-in-face-verification/">DeepFace by Facebook</a>)</li>
 </ul></li>
 <li>Transformation
 <ul>
-<li>Structured prediction (sequence-to-sequence)</li>
-<li>Machine translation</li>
-<li>Image filters</li>
+<li>Structured prediction (sequence-to-sequence) (e.g. <a href="https://github.com/ckmarkoh/deepSeg">deepSeg - Chinese Word Segmentation toolkit</a>)</li>
+<li>Machine translation (e.g. <a href="https://arxiv.org/abs/1609.08144">Google's NMT System</a>)</li>
+<li>Image filters (e.g. <a href="http://faculty.ucmerced.edu/mhyang/papers/eccv16_joint_filter.pdf">Li et al. 2016</a>)</li>
+<li>Speech recognition (e.g. <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/interspeech-tutorial-2015-lideng-sept6a.pdf">MSR Tutorial @ Interspeech 2016</a>)</li>
 </ul></li>
 </ul>
 </section>
@@ -218,6 +219,14 @@ p { text-align: left; }
 </center>
 
 </section>
+<section id="latest-research-in-dl---language-1" class="level2">
+<h2>Latest Research in DL - Language</h2>
+<p>A Neural Attention Model for Sentence Summarization <a href="https://aclweb.org/anthology/D/D15/D15-1044.pdf">(Rush et al. 2016)</a></p>
+<center>
+<img src="img/summarization.png" width="55%"/>
+</center>
+
+</section>
 <section id="how-can-we-use-dl" class="level2">
 <h2>How can we use DL?</h2>
 <p>Training a deep neural network usually requires a huge amount of data. For example, the CNNs such as VGG16 and Inception V3 are trained on the ImageNet dataset with <strong>~1.2 million</strong> images of <strong>1,000 different classes</strong>.</p>
@@ -234,13 +243,13 @@ p { text-align: left; }
 <h2>Transfer Learning</h2>
 <ul>
 <li>For common tasks such as image classification, it is likely that filters (feature extractors) trained on one datasets are useful on many other datasets as well</li>
-<li><p><a href="https://en.wikipedia.org/wiki/Transfer_learning">Transfer learning</a> refers to the task of applying knowledge gained in one problem to another different but related problem</p></li>
+<li><a href="https://en.wikipedia.org/wiki/Transfer_learning">Transfer learning</a> refers to the task of applying knowledge gained in one problem to another different but related problem</li>
 <li>Transfer learning in deep learning
 <ol type="1">
 <li>Using a pre-trained neural nework as a <strong>feature extractor</strong></li>
 <li>Perform fine-tuning on a pre-trained network</li>
 </ol></li>
-<li><p>Ref: <a href="http://cs231n.github.io/transfer-learning/">http://cs231n.github.io/transfer-learning/</a></p></li>
+<li>Ref: <a href="http://cs231n.github.io/transfer-learning/">http://cs231n.github.io/transfer-learning/</a></li>
 </ul>
 </section>
 <section id="transfer-learning-2" class="level2">
@@ -262,15 +271,28 @@ p { text-align: left; }
 </center>
 
 </section>
+<section id="example-of-transfer-learning---pre-trained-word-embeddings" class="level2">
+<h2>Example of Transfer Learning - Pre-trained Word Embeddings</h2>
+<ul>
+<li><a href="">Word embeddings</a> are dense vector representations of words that reflect their contextual similarity</li>
+<li>Different pre-trained word vectors are available, e.g. <a href="https://code.google.com/archive/p/word2vec/">word2vec</a>, <a href="https://nlp.stanford.edu/projects/glove/">GloVe</a>, <a href="https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md">fastText</a></li>
+<li>Can be used to initialise the embedding layer when training NLP models</li>
+</ul>
+<center>
+<img src="img/glove.png" width="95%"/><br/> <span style="font-size: 16px;">Ref: GloVe: Global Vectors for Word Representation: <a href="https://nlp.stanford.edu/projects/glove/">https://nlp.stanford.edu/projects/glove/</a></span>
+</center>
+
+</section>
 <section id="common-deep-learning-frameworks" class="level2">
 <h2>Common Deep Learning Frameworks</h2>
 <ul>
-<li><a href="https://www.tensorflow.org/">Tensorflow</a></li>
-<li><a href="http://torch.ch/">Torch</a></li>
-<li><a href="http://deeplearning.net/software/theano/">Theano</a></li>
-<li><a href="https://nnabla.org/">Nnabla</a></li>
-<li><a href="http://mxnet.io/">MXnet</a></li>
-<li><a href="https://keras.io">Keras</a></li>
+<li>Tensorflow: <a href="https://www.tensorflow.org/">https://www.tensorflow.org/</a></li>
+<li>Torch: <a href="http://torch.ch/">http://torch.ch/</a></li>
+<li>Theano: <a href="http://deeplearning.net/software/theano/">http://deeplearning.net/software/theano/</a></li>
+<li>Caffe2: <a href="https://caffe2.ai/">https://caffe2.ai/</a></li>
+<li>Nnabla: <a href="https://nnabla.org/">https://nnabla.org/</a></li>
+<li>MXnet: <a href="http://mxnet.io/">http://mxnet.io/</a></li>
+<li>Keras: <a href="https://keras.io">https://keras.io</a></li>
 <li>...</li>
 </ul>
 </section>
@@ -278,22 +300,12 @@ p { text-align: left; }
 <h2>Machine learning and Social Science</h2>
 <p>Machine learning is not only for solving computational problems, but can also be applied to study problems in humanities and social science</p>
 <ul>
-<li>The rise of computational humanities and computational social science</li>
-<li>Examples:
+<li>Some examples from myself and my collaborators:
 <ul>
-<li><a href="https://blogit.utu.fi/propreau/">Profiling Premodern Authors</a></li>
 <li><a href="http://aclweb.org/anthology/P15-1063">Omnia Mutantur, Nihil Interit: Connecting Past with Present by Finding Corresponding Terms across Time</a> (Zhang et al. 2015)</li>
-<li><a href="http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf">Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining</a>(Au Yeung &amp; Jatowt, 2011)</li>
+<li><a href="http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf">Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining</a> (Au Yeung &amp; Jatowt, 2011)</li>
 </ul></li>
 </ul>
-<!---
-[International Conference on Computational Social Science](https://ic2s2.org/2017/)
-http://www.cs.cmu.edu/~dbamman/mlch.html
-http://www.cs.cmu.edu/~dbamman/slides/mlch.pdf
-
-http://www.aka.fi/globalassets/32akatemiaohjelmat/digihum/programme_digihum_2017.pdf
--->
-
 </section>
 <section id="summary" class="level2">
 <h2>Summary</h2>
@@ -301,7 +313,7 @@ http://www.aka.fi/globalassets/32akatemiaohjelmat/digihum/programme_digihum_2017
 <li>Deep learning is a powerful machine learning method for solving different tasks, especially when the problem can be defined as a <strong>classification</strong> or <strong>transformation</strong> problem</li>
 <li>Moving from feature engineering to <a href="https://research.googleblog.com/2017/05/using-machine-learning-to-explore.html"><strong>'neural network engineering'</strong></a></li>
 <li>There are many <strong>open source deep learning frameworks</strong> that allow research and development in deep learning to be done more efficiently</li>
-<li>Can deep learning beuseful in solving problems in humanities and social science?</li>
+<li>Can deep learning be useful in solving problems in humanities and social science?</li>
 </ul>
 </section>
 <section id="the-end" class="level2">

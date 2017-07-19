@@ -45,15 +45,16 @@ What can DL be Used for?
 Deep learning is mainly used to perform one of the following two tasks:
 
 * Classification
-    - Object recognition
-    - Speaker recognition
-    - Document classification
-    - Reinforcement learning
+    - Object recognition (e.g. [Overview by Xiaogang Wang @ CUHK](http://mmlab.ie.cuhk.edu.hk/resources/deep_learning/overview.pdf))
+    - Speaker recognition (e.g. [Deep Speaker from Baidu Research](http://research.baidu.com/deep-speaker-end-end-system-large-scale-speaker-recognition/))
+    - Document classification (e.g. [Yang et al. 2016](https://www.cs.cmu.edu/~diyiy/docs/naacl16.pdf))
+    - Face recognition (e.g. [DeepFace by Facebook](https://research.fb.com/publications/deepface-closing-the-gap-to-human-level-performance-in-face-verification/))
 
 * Transformation
-    - Structured prediction (sequence-to-sequence)
-    - Machine translation
-    - Image filters
+    - Structured prediction (sequence-to-sequence) (e.g. [deepSeg - Chinese Word Segmentation toolkit](https://github.com/ckmarkoh/deepSeg))
+    - Machine translation (e.g. [Google's NMT System](https://arxiv.org/abs/1609.08144))
+    - Image filters (e.g. [Li et al. 2016](http://faculty.ucmerced.edu/mhyang/papers/eccv16_joint_filter.pdf))
+    - Speech recognition (e.g. [MSR Tutorial @ Interspeech 2016](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/interspeech-tutorial-2015-lideng-sept6a.pdf))
 
 Computer Vision
 ---------------
@@ -150,6 +151,15 @@ Character Sequence Models for Colorful Words [(Kawakami et al. 2016)](http://www
 <img src="img/colorlab.png" width="80%"/>
 </center>
 
+Latest Research in DL - Language
+--------------------------------
+
+A Neural Attention Model for Sentence Summarization [(Rush et al. 2016)](https://aclweb.org/anthology/D/D15/D15-1044.pdf)
+
+<center>
+<img src="img/summarization.png" width="55%"/>
+</center>
+
 How can we use DL?
 ------------------
 
@@ -165,7 +175,6 @@ Transfer Learning
 
 * For common tasks such as image classification, it is likely that filters (feature extractors) trained on one datasets are useful on many other datasets as well
 * [Transfer learning](https://en.wikipedia.org/wiki/Transfer_learning) refers to the task of applying knowledge gained in one problem to another different but related problem
-
 * Transfer learning in deep learning
     1. Using a pre-trained neural nework as a **feature extractor**
     2. Perform fine-tuning on a pre-trained network
@@ -191,15 +200,29 @@ Example of Transfer Learning
 <img src="img/tourlens.png" width="60%">
 </center>
 
+Example of Transfer Learning - Pre-trained Word Embeddings
+----------------------------------------------------------
+
+* [Word embeddings]() are dense vector representations of words that reflect their contextual similarity
+* Different pre-trained word vectors are available, e.g. [word2vec](https://code.google.com/archive/p/word2vec/), [GloVe](https://nlp.stanford.edu/projects/glove/), [fastText](https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md)
+* Can be used to initialise the embedding layer when training NLP models
+
+<center>
+<img src="img/glove.png" width="95%"/><br/>
+<span style="font-size: 16px;">Ref: GloVe: Global Vectors for Word Representation:
+[https://nlp.stanford.edu/projects/glove/](https://nlp.stanford.edu/projects/glove/)</span>
+</center>
+
 Common Deep Learning Frameworks
 -------------------------------
 
-* [Tensorflow](https://www.tensorflow.org/)
-* [Torch](http://torch.ch/)
-* [Theano](http://deeplearning.net/software/theano/)
-* [Nnabla](https://nnabla.org/)
-* [MXnet](http://mxnet.io/)
-* [Keras](https://keras.io)
+* Tensorflow: [https://www.tensorflow.org/](https://www.tensorflow.org/)
+* Torch: [http://torch.ch/](http://torch.ch/)
+* Theano: [http://deeplearning.net/software/theano/](http://deeplearning.net/software/theano/)
+* Caffe2: [https://caffe2.ai/](https://caffe2.ai/)
+* Nnabla: [https://nnabla.org/](https://nnabla.org/)
+* MXnet: [http://mxnet.io/](http://mxnet.io/)
+* Keras: [https://keras.io](https://keras.io)
 * ...
 
 Machine learning and Social Science
@@ -207,19 +230,9 @@ Machine learning and Social Science
 
 Machine learning is not only for solving computational problems, but can also be applied to study problems in humanities and social science
 
-* The rise of computational humanities and computational social science
-* Examples:
-    - [Profiling Premodern Authors](https://blogit.utu.fi/propreau/)
+* Some examples from myself and my collaborators:
     - [Omnia Mutantur, Nihil Interit: Connecting Past with Present by Finding Corresponding Terms across Time](http://aclweb.org/anthology/P15-1063) (Zhang et al. 2015)
-    - [Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining](http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf)(Au Yeung & Jatowt, 2011)
-
-<!---
-[International Conference on Computational Social Science](https://ic2s2.org/2017/)
-http://www.cs.cmu.edu/~dbamman/mlch.html
-http://www.cs.cmu.edu/~dbamman/slides/mlch.pdf
-
-http://www.aka.fi/globalassets/32akatemiaohjelmat/digihum/programme_digihum_2017.pdf
--->
+    - [Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining](http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf) (Au Yeung & Jatowt, 2011)
 
 Summary
 -------
@@ -227,7 +240,7 @@ Summary
 * Deep learning is a powerful machine learning method for solving different tasks, especially when the problem can be defined as a **classification** or **transformation** problem
 * Moving from feature engineering to [**'neural network engineering'**](https://research.googleblog.com/2017/05/using-machine-learning-to-explore.html)
 * There are many **open source deep learning frameworks** that allow research and development in deep learning to be done more efficiently
-* Can deep learning beuseful in solving problems in humanities and social science?
+* Can deep learning be useful in solving problems in humanities and social science?
 
 The End
 -------
