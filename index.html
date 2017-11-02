@@ -1,362 +1,402 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Using Gradient Boosting Machines in Python | PyCon HK 2017</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
-<title>Deep Learning and Its Applications | Albert Au Yeung</title>
+      body { font-family: 'Source Sans Pro'; }
+      h1, h2, h3 {
+        font-family: 'Source Sans Pro';
+        font-weight: normal;
+      }
+      .remark-slide-content h1 {
+        color: #3344AA;
+        font-size: 2.4em;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
 
-<meta name="description" content="Deep Learning and Its Applications">    
+      .remark-slide table {
+          margin-left: 20px;
+      }
+      .remark-slide table th {
+          font-size: 1.4em;
+          text-align: center;
+          padding: 2px 16px;
+          background-color: #EFEFEF;
+      }
+      .remark-slide table td {
+          font-size: 1.4em;
+          text-align: center;
+          padding: 2px 16px;
+      }
 
-  <meta name="author" content="None" />
+      li {
+          font-size: 1.5em;
+          line-height: 1.4em;
+          margin-bottom: 0.5em;
+      }
+      li li {
+          font-size: 0.8em;
+          line-height: 1.4em;
+      }
 
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      a {
+          text-decoration: none;
+          color: #CC5577;
+      }
+      a:hover {
+          text-decoration: underline;
+      }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      .split-60 .column-left {
+           display: block;
+           float: left;
+           width: 60%;
+      }
+      .split-60 .column-right {
+           display: block;
+           float: right;
+           width: 35%;
+           padding-left: 12px;
+      }
 
-<link rel="stylesheet" href="css/reveal.css">
-  <link rel="stylesheet" href="css/theme/custom.css" id="theme">
+      .remark-code {
+        font-size: 1.1em;
+        line-height: 1.35em;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
 
+class: center, middle
 
-<!-- For syntax highlighting -->
-  <link rel="stylesheet" href="lib/css/zenburn.css">
+# Using Gradient Boosting Machines in Python
 
-<!-- If the query includes 'print-pdf', use the PDF print sheet -->
-<script>
-  document.write( '<link rel="stylesheet" href="css/print/' +
-    ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + 
-    '.css" type="text/css" media="print">' );
-</script>
+### Albert Au Yeung
 
-<!--[if lt IE 9]>
-<script src="lib/js/html5shiv.js"></script>
-<![endif]-->
-</head>
+### PyCon HK 2017, 4th Nov., 2017
 
-<body>
+---
 
-<style type="text/css">
-p { text-align: left; }
-</style>
+# Objectives of this Talk
 
-<div class="reveal">
+* To give a brief introduction of [gradient boosting](https://en.wikipedia.org/wiki/Gradient_boosting)
+* To introduce how to use [LightGBM](https://github.com/Microsoft/LightGBM) in Python
+* To share some tips on [tuning LightGBM models](https://github.com/Microsoft/LightGBM/blob/master/docs/Parameters-Tuning.rst)
 
-<!-- Any section element inside of this container is displayed as a slide -->
-<div class="slides">
+---
 
-<section>
-  <small style="color: #555555"></small><br/>
-  <h2>Deep Learning and Its Applications</h2>
-  <br/>
-  <h4>
-    Research Seminar<br/>
-    Deep Learning Research & Application Centre (DLC)<br/>
-    Hang Seng Management College</h4>
-  <br/><br/><br/>
+# What is Machine Learning?
 
-  <div style="text-align: right; line-height: 1.2em">
-    <span style="font-size: 0.8em;">Albert Au Yeung</span><br/>
-    <span style="font-size: 0.6em;">20th, July, 2017</span>
-  </div>
-</section>
+* Given some input `\(X\)` and ouptut `\(y\)`, find a function `\(F(X)\)` that maps `\(X\)` to `\(y\)`.
+* Example: given (<span style="color:#CC4455">location, size</span>) (`\(X\)`), predict the <span style="color:#CC4455">price</span> of a house (`\(y\)`).
 
+.center[<img src="img/ml.png" style="width: 75%; margin-top: 2em;" />]
 
-<section id="agenda" class="level2">
-<h2>Agenda</h2>
-<ul>
-<li>What is <strong>deep learning</strong>?</li>
-<li>What can deep learning be <strong>used for</strong>?</li>
-<li><strong>How</strong> can we use deep learning?</li>
-<li><strong>Applications</strong> of deep learning</li>
-<li>Machine learning and <strong>Social Science</strong></li>
-</ul>
-</section>
-<section id="about-me" class="level2">
-<h2>About Me</h2>
-<ul>
-<li>Lead Engineer in Machine Learning at <a href="http://www.zwoop.biz">Zwoop</a></li>
-<li>Co-founder of <a href="http://www.axon-labs.com">Axon Labs Ltd</a>.</li>
-<li>Research positions at <a href="http://www.kecl.ntt.co.jp/rps/index.html">NTT CSLab</a>, <a href="https://www.astri.org/">ASTRI</a>, <a href="http://www.noahlab.com.hk/">Huawei Noah's Ark Lab</a></li>
-<li>Research interests and experience:
-<ul>
-<li>Machine learning, natural language processing and social network analysis</li>
-<li>Consumer behaviour analysis and recommendation systems</li>
-<li>Image search engine based on deep learning</li>
-<li>Computational history and social science</li>
-</ul></li>
-</ul>
-</section>
-<section id="trend" class="level2">
-<h2>Trend</h2>
-<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/1064_RC03/embed_loader.js"></script> <script type="text/javascript"> trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"deep learning","geo":"","time":"2010-01-01 2017-07-01"},{"keyword":"machine learning","geo":"","time":"2010-01-01 2017-07-01"},{"keyword":"artificial intelligence","geo":"","time":"2010-01-01 2017-07-01"}],"category":0,"property":""}, {"exploreQuery":"date=2010-01-01%202017-07-01&q=deep%20learning,machine%20learning,artificial%20intelligence","guestPath":"https://trends.google.com:443/trends/embed/"}); </script> 
+---
 
-</section>
-<section id="what-is-deep-learning" class="level2">
-<h2>What is Deep Learning?</h2>
-<ul>
-<li>A branch of machine learning that makes use of <strong>artificial neural network</strong> for learning</li>
-<li>New methods for training a deep neural network
-<ul>
-<li>Layer-wise <strong>pre-training</strong> (<a href="https://www.cs.toronto.edu/~hinton/absps/fastnc.pdf">Hinton et al., 2006</a>)</li>
-</ul></li>
-<li>New structures of multi-layer neural networks:
-<ul>
-<li><strong>Convolutional</strong> NN (<a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">LeCun et al. 1998</a>)</li>
-<li><strong>Recurrent</strong> NN (<a href="ftp://ftp.idsia.ch/pub/juergen/TimeCount-IJCNN2000.pdf">Gers and Schmidhuber, 2000</a>)</li>
-<li><strong>Attention</strong> Mechanism (<a href="https://papers.nips.cc/paper/5542-recurrent-models-of-visual-attention.pdf">Mnih et al. 2014</a>)</li>
-</ul></li>
-</ul>
-</section>
-<section id="what-can-dl-be-used-for" class="level2">
-<h2>What can DL be Used for?</h2>
-<p>Deep learning is mainly used to perform one of the following two tasks:</p>
-<ul>
-<li>Classification
-<ul>
-<li>Object recognition (e.g. <a href="http://mmlab.ie.cuhk.edu.hk/resources/deep_learning/overview.pdf">Overview by Xiaogang Wang @ CUHK</a>)</li>
-<li>Speaker recognition (e.g. <a href="http://research.baidu.com/deep-speaker-end-end-system-large-scale-speaker-recognition/">Deep Speaker from Baidu Research</a>)</li>
-<li>Document classification (e.g. <a href="https://www.cs.cmu.edu/~diyiy/docs/naacl16.pdf">Yang et al. 2016</a>)</li>
-<li>Face recognition (e.g. <a href="https://research.fb.com/publications/deepface-closing-the-gap-to-human-level-performance-in-face-verification/">DeepFace by Facebook</a>)</li>
-</ul></li>
-<li>Transformation
-<ul>
-<li>Structured prediction (sequence-to-sequence) (e.g. <a href="https://github.com/ckmarkoh/deepSeg">deepSeg - Chinese Word Segmentation toolkit</a>)</li>
-<li>Machine translation (e.g. <a href="https://arxiv.org/abs/1609.08144">Google's NMT System</a>)</li>
-<li>Image filters (e.g. <a href="http://faculty.ucmerced.edu/mhyang/papers/eccv16_joint_filter.pdf">Li et al. 2016</a>)</li>
-<li>Speech recognition (e.g. <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/interspeech-tutorial-2015-lideng-sept6a.pdf">MSR Tutorial @ Interspeech 2016</a>)</li>
-</ul></li>
-</ul>
-</section>
-<section id="computer-vision" class="level2">
-<h2>Computer Vision</h2>
-<ul>
-<li>Computer vision in the old days rely heavily on specific feature extraction methods</li>
-<li>Examples of feature detection methods:
-<ul>
-<li><a href="http://hanzratech.in/2015/05/30/local-binary-patterns.html">Local binary patterns (LBP)</a></li>
-<li>Scale-Invariant Feature Transform (SIFT) (<a href="https://www.cs.ubc.ca/~lowe/papers/ijcv04.pdf">Lowe, 2004</a>)</li>
-</ul></li>
-</ul>
+# Which ML Algorithm Should You Use?
+
+- Linear regression, decision trees, random forest, gradient boosting, logistic regression, kNN, naive Bayes, neural networks...
+- For *computer vision* related tasks, *deep learning* are often the most useful. How about other problems with **<span style="color:#3366AA">explicit features</span>**?
+      - E.g: [House Price Prediction](https://www.kaggle.com/c/house-prices-advanced-regression-techniques), [Insurance Claim Prediction](https://www.kaggle.com/c/porto-seguro-safe-driver-prediction), [Production Line Quality Prediction](Production Line)
+- What do the competition winners use?
+      - [Profiling Top Kagglers: Owen Zhang](http://blog.kaggle.com/2015/06/22/profiling-top-kagglers-owen-zhang-currently-1-in-the-world/)
+      - [A Kaggle Master Explains Gradient Boosting](http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/)
+
+---
+
+class: center, middle
+
+<img src="img/algorithms-ranking.png" style="width: 95%" />
+
+Ref: Fig 1. Olson et al. [Data-driven Advice for Applying Machine Learning to Bioinformatics Problems](https://arxiv.org/abs/1708.05070). 2017.
+
+---
+
+class: center, middle
+
+<img src="img/algorithms-ranking-2.png" style="width: 80%" />
+
+Ref: Fig 2. Olson et al. [Data-driven Advice for Applying Machine Learning to Bioinformatics Problems](https://arxiv.org/abs/1708.05070). 2017.
+
+---
+
+class: split-60
+
+# What is Boosting?
+
+.column-left[
+* In general, [boosting](https://en.wikipedia.org/wiki/Boosting_%28machine_learning%29) is a method that trains a number of relatively **weak** classifiers and **combine** their predictions together, in the hope of generating more accuracy predictions
+* Thus, boosting implies [ensemble learning](https://en.wikipedia.org/wiki/Ensemble_learning)
+* Example: [AdaBoost](https://en.wikipedia.org/wiki/AdaBoost) - in each iteration, previously <span style="color: #4466DD">wrongly</span> classified samples will have <span style="color: #4466DD">higher weights</span> when training the next classifier.
+]
+.column-right[
+<img src="img/boosting.png" width="98%">
+
+(Ref: [Quick Introduction to Boosting Algorithms in Machine Learning](https://www.analyticsvidhya.com/blog/2015/11/quick-introduction-boosting-algorithms-machine-learning/))
+]
+
+---
+
+# What is Gradient Boosting?
+
+* To train a model is equivalent to finding a suitable function `\(F(X)\)`, such that given input data `\(X\)`, it will output correct predictions `\(y = F(X)\)`
+* Let's assume that we have trained a model `\(F_1(X)\)`, and given training data `\(X_T\)`, it outputs `\(y_p\)`, while the ground truth is `\(y_T\)`
+* In most cases, the model would make some mistakes: `\(y_T - y_p\)`
+* What can we do next to **<span style="color: rgb(22, 113, 155)">improve</span>** our model?
+
+---
+
+# An Example
+
+* Suppose the performance of our first model is as follows:
+
+Rooms  | Size |        Rent | Predicted (`\(F_1(X)\)`) | Error (`\(y_T\)` - `\(F_1(X)\)`)
+-------|------|-------------|-----------|-------
+1      |   20 |      12,000 |   13,000  | -1,000
+1      |   30 |      14,000 |   13,500  |    500
+2      |   40 |      16,500 |   15,800  |    700
+3      |   85 |      24,000 |   25,500  | -1,500
+3      |   80 |      26,000 |   25,300  |    700
+
+* We would like to have another model that **corrects** the errors of the first model!
+* In other words, we want `\(F_2(X)\)` = `\(y_T\)` - `\(F_1(X)\)`
+
+---
+
+# What is Gradient Boosting?
+
+* The combination of the 1st and the 2nd model may still make some mistakes
+* We can apply this method repeatedly, until `\(F_1(X) + F_2(X) + ... + F_N(X)\)` is good enough
+* In general, larger `\(N\)` results in more accuracy results, but may also lead to overfitting.
+
+---
+
+# Training Gradient Boosting Models
+
+## A number of libraries available in Python
+
+* scikit-learn's [GradientBoostingClassifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier) / [GradientBoostingRegressor](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor)
+* [XGBoost](http://xgboost.readthedocs.io/en/latest/)
+* Microsoft's [LightGBM](https://github.com/Microsoft/LightGBM)
+* [h2o](https://github.com/h2oai/h2o-3)
+* Spark MLib's [Gradient-Boosted Trees](https://spark.apache.org/docs/2.1.0/ml-classification-regression.html#gradient-boosted-trees-gbts)
+
+---
+
+# LightGBM
+
+* [LightGBM](https://github.com/Microsoft/LightGBM) - An open source gradient boosting framework created by Microsoft Research.
+* Supports *classification*, *regression* and *ranking* tasks
+* Much more efficient compared to other implements such as [XGboost](https://github.com/dmlc/xgboost) and [scikit-learn](http://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble)
+* Support parallel training on **multi-core**, **multi-machine** and **GPUs**
+
+---
+
+# Python API Example
+
+```python
+import lightgbm as lgb
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+# Assume X, y are the training data set
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=101)
+
+# Create dataset for LightGBM
+lgb_train = lgb.Dataset(X_train, label=y_train)
+lgb_test = lgb.Dataset(X_test, y_test, reference=lgb_train)
+
+# Set parameters
+params = {
+    "objective": "multiclass",
+    "metric": "multi_logloss",
+    "num_leaves": 31
+}
+```
+
+---
+
+# Python API Example
+
+```python
+# Train
+booster = lgb.train(params,
+                    lgb_train,
+                    num_boost_round=100,
+                    valid_sets=[lgb_train, lgb_test],
+                    early_stopping_rounds=10)
+
+# Check performance on test set
+y_pred = booster.predict(X_test, num_iteration=booster.best_iteration)
+print("Accuracy: %.4f" % accuracy_score(y_test, y_pred))
+
+# Persist model
+booster.save_model("gbm.model.txt")
+```
+
+---
+# scikit-learn Style API
+
+```python
+import lightgbm as lgb
+
+# Create classifier
+gbm = lgb.LGBMClassifier(objective="multiclass",
+                         num_leaves=31,
+                         n_estimators=100)
+
+# Train
+gbm.fit(X_train, y_train,
+        eval_set=[(X_test, y_test)],
+        eval_metric="multi_logloss",
+        early_stopping_rounds=5)
+
+# Generate predictions
+y_pred = gbm.predict(X_test, num_iteration=gbm.best_iteration_)
+```      
+---
+
+# LGB: Important Parameters
+
+* **num_leaves** - Maximum number of leaves in a tree. (10 to 100)
+* **min_child_samples** - Minimum data points required in a leaf node. (10 to 1000)
+* **bagging_fraction** - Fraction of samples for training in each round (0 to 1)
+* **bagging_freq** - How frequent do we use bagging (1 to 10)
+* **feature_fraction** - Fraction of features for training in each round (0 to 1)
+* **lambda_l1** / **lambda_l2** - Regularisation parameters (0.01 to 0.1)
+* **min_split_gain** - When should we split a leave node (0.001 to 0.1)
+
+<br/><br/>
+<span style="font-size: 1.2em">
+Reference: [LightGBM - Parameter Tuning](http://lightgbm.readthedocs.io/en/latest/Parameters-Tuning.html)
+</span>
+
+---
+
+# Early Stopping
+
+* **Training error** decreases as number of boosting rounds increases
+* But too many boosting rounds may lead to **overfitting**
+* A validation data set can be used to find out the optimal number of boosting rounds
+
+```python
+evals_result = {}  # Use to store the metrics of each round on the validation set
+booster = lgb.train(params,
+                    lgb_train,
+                    num_boost_round=100,
+                    valid_sets=[lgb_train, lgb_test],
+                    evals_result=evals_result,
+                    early_stopping_rounds=10)
+```
+
+---
+
+# Early Stopping - Avoid Overfitting
+
 <center>
-<br/> <img src="img/bagoffeatures_visualwordsoverview.png" width="75%"/><br/> <span style="font-size: 16px;">Ref: <a href="http://www.mathworks.com/help/vision/ug/image-classification-with-bag-of-visual-words.html">Image Classification with Bag of Visual Words - MathWorks</a></span>
+<img src="img/best-iterations.png" width="95%">
 </center>
 
-</section>
-<section id="convolutional-neural-network-cnn" class="level2">
-<h2>Convolutional Neural Network (CNN)</h2>
-<ul>
-<li>Instead of fully connected layers, a CNN also involves layers that are only partially connected to the previous or the next (<strong>kernels</strong> or <strong>filters</strong> or <strong>feature detectors</strong>)</li>
-<li>Filters of different sizes are applied to the whole image to extract features useful for the task</li>
-<li>Representation learning (e.g. automatic feature extraction from images)</li>
-</ul>
+---
+
+# Feature Importance
+
+feature_importance(importance_type='split', iteration=-1)[source]
+
+Get feature importances.
+
+Parameters:importance_type (string, optional (default="split")) – How
+the importance is calculated. If “split”, result contains numbers of
+times the feature is used in a model. If “gain”, result contains total
+gains of splits which use the feature.
+Returns:result – Array with feature importances.
+Return type:numpy array
+
+---
+
 <center>
-<img src="img/lecun98.png" width="85%"/><br/> <span style="font-size: 16px;">Ref: <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-01a.pdf">Gradient-Based Learning Applied to Document Recognition (LeCun et al., 1998)</a></span>
+<img src="img/feature-importance.png" width="70%">
 </center>
 
-</section>
-<section id="convolutional-neural-network-cnn-1" class="level2">
-<h2>Convolutional Neural Network (CNN)</h2>
-<ul>
-<li>Huge improvement in the image classification task on <a href="http://www.image-net.org/">ImageNet</a></li>
-</ul>
-<center>
-<img src="img/image-net-error-rate.png" width="75%"><br/> <span style="font-size: 16px;">Ref: <a href="https://medium.com/global-silicon-valley/machine-learning-yesterday-today-tomorrow-3d3023c7b519">Musings on Deep Learning. Li Jiang, 2014</a></span>
-</center>
+```python
+booster = lgb.train(params, train_data, num_boost_round=100)
+lgb.plot_importance(booster)
+```
 
-</section>
-<section id="recurrent-neural-network-rnn" class="level2">
-<h2>Recurrent Neural Network (RNN)</h2>
-<ul>
-<li>Extending neural network to handle <strong>sequential inputs</strong> (e.g. language, time-series data, speech and audio signals, etc.)</li>
-<li>Outputs depend on previous computations</li>
-<li>Drastically outperform traditional approaches in certain domains (e.g. <a href="https://arxiv.org/abs/1412.5567">Deep Speech (Hannun et al., 2014)</a>)</li>
-</ul>
-<center>
-<img src="img/rnn-unrolled.png" width="80%"/><br/> <span style="font-size: 16px;">Ref: <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks (Colab, 2015)</a></span>
-</center>
+---
 
-</section>
-<section id="attention-mechanism" class="level2">
-<h2>Attention Mechanism</h2>
-<ul>
-<li>Focusing on a certain area / period of an input when trying to predict the outputs</li>
-<li>Found particularly useful when performing <strong>machine translation</strong> or <strong>image caption</strong> generation</li>
-</ul>
-<center>
-<img src="img/vision-attention.png" width="90%"/><br/> <span style="font-size: 16px;">Ref: <a href="http://www.jmlr.org/proceedings/papers/v37/xuc15.pdf">Show, Attend and Tell: Neural Image Caption Generation with Visual Attention (Xu et al., 2015)</a></span>
-</center>
+# LGB: Parallelisation
 
-</section>
-<section id="latest-research-in-dl---vision" class="level2">
-<h2>Latest Research in DL - Vision</h2>
-<p>Colourisation of black and white images/videos <a href="http://hi.cs.waseda.ac.jp/~iizuka/projects/colorization/en/">(Iizuka et al. 2016)</a></p>
-<center>
-<img src="img/dl_application_colourisation.png" width="90%">
-</center>
+* LightGBM supports learning on <span style="color: #4466DD">multi-core</span>, <span style="color: #4466DD">multi-machine</span>, and <span style="color: #4466DD">GPU</span>
 
-</section>
-<section id="latest-research-in-dl---vision-1" class="level2">
-<h2>Latest Research in DL - Vision</h2>
-<p>Neural Style / Style Transfer <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf">(Gatys et al. 2016)</a> Source code available on <a href="https://github.com/cysmith/neural-style-tf">Github</a></p>
-<center>
-<img src="img/neural-style.png" width="70%">
-</center>
+---
 
-</section>
-<section id="latest-research-in-dl---speech" class="level2">
-<h2>Latest Research in DL - Speech</h2>
-<p>Synthesizing Obama: Learning Lip Sync from Audio <a href="http://grail.cs.washington.edu/projects/AudioToObama/">(Suwajankorn et al. 2017)</a></p>
-<center>
-<img src="img/obama.png" width="40%"/>
-</center>
+# Installing GPU-enabled LightGBM
 
-</section>
-<section id="latest-research-in-dl---language" class="level2">
-<h2>Latest Research in DL - Language</h2>
-<p>Character Sequence Models for Colorful Words <a href="http://www.colorlab.us">(Kawakami et al. 2016)</a></p>
-<center>
-<img src="img/colorlab.png" width="80%"/>
-</center>
+* Method to install GPU-enabled LightGBM (worked on AWS GPU instance)<br/>
+(Ref: https://github.com/Microsoft/LightGBM/issues/715)
 
-</section>
-<section id="latest-research-in-dl---language-1" class="level2">
-<h2>Latest Research in DL - Language</h2>
-<p>A Neural Attention Model for Sentence Summarization <a href="https://aclweb.org/anthology/D/D15/D15-1044.pdf">(Rush et al. 2016)</a></p>
-<center>
-<img src="img/summarization.png" width="55%"/>
-</center>
+```bash
+$ git clone --recursive https://github.com/Microsoft/LightGBM
 
-</section>
-<section id="how-can-we-use-dl" class="level2">
-<h2>How can we use DL?</h2>
-<p>Training a deep neural network usually requires a huge amount of data. For example, the CNNs such as VGG16 and Inception V3 are trained on the ImageNet dataset with <strong>~1.2 million</strong> images of <strong>1,000 different classes</strong>.</p>
-<ul>
-<li>How can one start with DL:
-<ul>
-<li>collect enough data to start with!</li>
-<li>use pre-trained models directly</li>
-<li>use pre-trained models and do fine-tuning, a.k.a. <strong>transfer learning</strong></li>
-</ul></li>
-</ul>
-</section>
-<section id="transfer-learning" class="level2">
-<h2>Transfer Learning</h2>
-<ul>
-<li>For common tasks such as image classification, it is likely that filters (feature extractors) trained on one datasets are useful on many other datasets as well</li>
-<li><a href="https://en.wikipedia.org/wiki/Transfer_learning">Transfer learning</a> refers to the task of applying knowledge gained in one problem to another different but related problem</li>
-<li>Transfer learning in deep learning
-<ol type="1">
-<li>Using a pre-trained neural nework as a <strong>feature extractor</strong></li>
-<li>Perform fine-tuning on a pre-trained network</li>
-</ol></li>
-<li>Ref: <a href="http://cs231n.github.io/transfer-learning/">http://cs231n.github.io/transfer-learning/</a></li>
-</ul>
-</section>
-<section id="transfer-learning-2" class="level2">
-<h2>Transfer Learning (2)</h2>
-<center>
-<img src="img/transfer_learning.png" width="95%"/><br/> <span style="font-size: 16px;">Ref: Learning and Transferring Mid-Level Image Representations using Convolutional Neural Networks <a href="http://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Oquab_Learning_and_Transferring_2014_CVPR_paper.pdf">(Oquab et al., 2014)</a></span>
-</center>
+$ cd ./LightGBM
+$ mkdir build; cd build
 
-</section>
-<section id="example-of-transfer-learning" class="level2">
-<h2>Example of Transfer Learning</h2>
-<ul>
-<li><strong>TourLens</strong> - Recognize ~50 objects for <strong>tourists in Hong Kong</strong></li>
-<li>Around ~100 training images for each class</li>
-<li>Transfer learning using pre-trained <a href="https://en.wikipedia.org/wiki/AlexNet"><strong>AlexNet</strong></a> on ImageNet</li>
-</ul>
-<center>
-<img src="img/tourlens.png" width="60%">
-</center>
+$ sudo cmake -DUSE_GPU=1 -DOpenCL_LIBRARY=/usr/local/cuda-8.0/lib64/libOpenCL.so \
+    -DOpenCL_INCLUDE_DIR=/usr/local/cuda-8.0/include/ ..
+$ sudo make -j2
 
-</section>
-<section id="example-of-transfer-learning---pre-trained-word-embeddings" class="level2">
-<h2>Example of Transfer Learning - Pre-trained Word Embeddings</h2>
-<ul>
-<li><a href="">Word embeddings</a> are dense vector representations of words that reflect their contextual similarity</li>
-<li>Different pre-trained word vectors are available, e.g. <a href="https://code.google.com/archive/p/word2vec/">word2vec</a>, <a href="https://nlp.stanford.edu/projects/glove/">GloVe</a>, <a href="https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md">fastText</a></li>
-<li>Can be used to initialise the embedding layer when training NLP models</li>
-</ul>
-<center>
-<img src="img/glove.png" width="95%"/><br/> <span style="font-size: 16px;">Ref: GloVe: Global Vectors for Word Representation: <a href="https://nlp.stanford.edu/projects/glove/">https://nlp.stanford.edu/projects/glove/</a></span>
-</center>
+$ cd ../python-package; sudo python3 setup.py install --precompile
+```
 
-</section>
-<section id="common-deep-learning-frameworks" class="level2">
-<h2>Common Deep Learning Frameworks</h2>
-<ul>
-<li>Tensorflow: <a href="https://www.tensorflow.org/">https://www.tensorflow.org/</a></li>
-<li>Torch: <a href="http://torch.ch/">http://torch.ch/</a></li>
-<li>Theano: <a href="http://deeplearning.net/software/theano/">http://deeplearning.net/software/theano/</a></li>
-<li>Caffe2: <a href="https://caffe2.ai/">https://caffe2.ai/</a></li>
-<li>Nnabla: <a href="https://nnabla.org/">https://nnabla.org/</a></li>
-<li>MXnet: <a href="http://mxnet.io/">http://mxnet.io/</a></li>
-<li>Keras: <a href="https://keras.io">https://keras.io</a></li>
-<li>...</li>
-</ul>
-</section>
-<section id="machine-learning-and-social-science" class="level2">
-<h2>Machine learning and Social Science</h2>
-<p>Machine learning is not only for solving computational problems, but can also be applied to study problems in humanities and social science</p>
-<ul>
-<li>Some examples from myself and my collaborators:
-<ul>
-<li><a href="http://aclweb.org/anthology/P15-1063">Omnia Mutantur, Nihil Interit: Connecting Past with Present by Finding Corresponding Terms across Time</a> (Zhang et al. 2015)</li>
-<li><a href="http://www.dl.kuis.kyoto-u.ac.jp/~adam/cikm11a.pdf">Studying How the Past is Remembered: Towards Computational History through Large Scale Text Mining</a> (Au Yeung &amp; Jatowt, 2011)</li>
-</ul></li>
-</ul>
-</section>
-<section id="summary" class="level2">
-<h2>Summary</h2>
-<ul>
-<li>Deep learning is a powerful machine learning method for solving different tasks, especially when the problem can be defined as a <strong>classification</strong> or <strong>transformation</strong> problem</li>
-<li>Moving from feature engineering to <a href="https://research.googleblog.com/2017/05/using-machine-learning-to-explore.html"><strong>'neural network engineering'</strong></a></li>
-<li>There are many <strong>open source deep learning frameworks</strong> that allow research and development in deep learning to be done more efficiently</li>
-<li>Can deep learning be useful in solving problems in humanities and social science?</li>
-</ul>
-</section>
-<section id="the-end" class="level2">
-<h2>The End</h2>
-<p>Thank you for attending the seminar! Questions are welcome.</p>
-<p>Contact me at:</p>
-<ul>
-<li>Email: albertauyeung@gmail.com</li>
-<li>Homepage: <a href="http://www.albertauyeung.com">http://www.albertauyeung.com</a></li>
-<li>Github: <a href="https://www.github.com/albertauyeung]">https://www.github.com/albertauyeung</a></li>
-</ul>
-</section>
-</div>
+---
 
-<script src="lib/js/head.min.js"></script>
-<script src="js/reveal.js"></script>
+# References
 
-<script>
-  // Full list of configuration options available here:
-  // https://github.com/hakimel/reveal.js#configuration
-  Reveal.initialize({
-    controls: true,
-    progress: true,
-    history: true,
-    center: false,
-    slideNumber: 'c/t',
-    
-  // available themes are in /css/theme
-      theme: Reveal.getQueryHash().theme || 'custom', 
-    // default/cube/page/concave/zoom/linear/fade/none
-      transition: Reveal.getQueryHash().transition || 'none',
-    // Optional libraries used to extend on reveal.js
-  dependencies: [
-    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-    { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-    // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
-  ]
-  });
-</script>
+* Ben Gorman. [A Kaggle Master Explains Gradient Boosting](http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/). 2017
 
-</body>
+
+---
+
+class: center, middle
+
+## Thank You!
+
+### http://www.albertauyeung.com<br/>albertauyeung@gmail.com
+
+### Slides Avaliable at:<br/> http://talks.albertauyeung.com/pycon2017-gradient-boosting/
+
+
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+    <script>
+      var slideshow = remark.create({
+        // Set the slideshow display ratio
+        ratio: '16:9',
+
+        // Customize slide number label, either using a format string..
+        slideNumberFormat: '%current% / %total%',
+        
+        // Enable or disable counting of incremental slides in the slide counting
+        countIncrementalSlides: true,
+
+        highlightStyle: "github"
+        });
+      // Setup MathJax
+      MathJax.Hub.Config({
+          tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+          }
+      });
+
+      MathJax.Hub.Configured();
+    </script>
+  </body>
 </html>
