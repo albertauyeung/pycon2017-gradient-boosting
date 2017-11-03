@@ -173,7 +173,8 @@ Rooms  | Size |        Rent | Predicted (`\(F_1(X)\)`) | Error (`\(y_T\)` - `\(F
 
 * The combination of the 1st and the 2nd model may still make some mistakes
 * We can apply this method repeatedly, until `\(F_1(X) + F_2(X) + ... + F_N(X)\)` is good enough
-* In general, larger `\(N\)` results in more accuracy results, but may also lead to overfitting.
+* In general, larger `\(N\)` results in more accuracy results, but may also lead to **<span style="color: #CC7733">overfitting</span>**.
+* `\(N\)` is usually referred to as <span style="color: rgb(190, 16, 124)">*number of boosted rounds*</span>, <span style="color: rgb(190, 16, 124)">*number of estimators*</span> or <span style="color: rgb(190, 16, 124)">*number of iterations*</span>.
 
 ---
 
@@ -189,9 +190,26 @@ Rooms  | Size |        Rent | Predicted (`\(F_1(X)\)`) | Error (`\(y_T\)` - `\(F
 
 ---
 
+# Comparison between LightGBM and XGBoost
+
+* XGBoost has been very popular among Kaggle participants
+* However, LightGBM trains model with similar accuracy much faster
+
+Dataset  | xgboost  | xgboost_hist | LightGBM
+---------|----------|--------------|----------
+Higgs 	 |  3,794 s | 	 551 s 	   |  238 s
+Yahoo LTR| 	  674 s | 	 265 s 	   |  150 s
+MS LTR 	 |  1,251 s | 	 385 s     |  215 s
+Expo 	 |  1,607 s |    588 s 	   |  138 s
+Allstate | 	2,867 s |  1,355 s 	   |  348 s
+
+* More statistics and comparison can be found at [LightGBM's Experiments page](https://github.com/Microsoft/LightGBM/blob/master/docs/Experiments.rst)
+
+---
+
 # LightGBM
 
-* [LightGBM](https://github.com/Microsoft/LightGBM) - An open source gradient boosting framework created by Microsoft Research.
+* LightGBM ([https://github.com/Microsoft/LightGBM](https://github.com/Microsoft/LightGBM)) - An open source gradient boosting framework created by Microsoft Research.
 * Supports *classification*, *regression* and *ranking* tasks
 * Much more efficient compared to other implements such as [XGboost](https://github.com/dmlc/xgboost) and [scikit-learn](http://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble)
 * Support parallel training on **multi-core**, **multi-machine** and **GPUs**
@@ -264,13 +282,13 @@ y_pred = gbm.predict(X_test, num_iteration=gbm.best_iteration_)
 
 # LGB: Important Parameters
 
-* **num_leaves** - Maximum number of leaves in a tree. (10 to 100)
-* **min_child_samples** - Minimum data points required in a leaf node. (10 to 1000)
-* **bagging_fraction** - Fraction of samples for training in each round (0 to 1)
-* **bagging_freq** - How frequent do we use bagging (1 to 10)
-* **feature_fraction** - Fraction of features for training in each round (0 to 1)
-* **lambda_l1** / **lambda_l2** - Regularisation parameters (0.01 to 0.1)
-* **min_split_gain** - When should we split a leave node (0.001 to 0.1)
+* <span style="color: rgb(47, 151, 192)">**num_leaves**</span> - Maximum number of leaves in a tree. (10 to 100)
+* <span style="color: rgb(47, 151, 192)">**min_child_samples**</span> - Minimum data points required in a leaf node. (10 to 1000)
+* <span style="color: rgb(47, 151, 192)">**bagging_fraction**</span> - Fraction of samples for training in each round (0 to 1)
+* <span style="color: rgb(47, 151, 192)">**bagging_freq**</span> - How frequent do we use bagging (1 to 10)
+* <span style="color: rgb(47, 151, 192)">**feature_fraction**</span> - Fraction of features for training in each round (0 to 1)
+* <span style="color: rgb(47, 151, 192)">**lambda_l1** / **lambda_l2**</span> - Regularisation parameters (0.01 to 0.1)
+* <span style="color: rgb(47, 151, 192)">**min_split_gain**</span> - When should we split a leave node (0.001 to 0.1)
 
 <br/><br/>
 <span style="font-size: 1.2em">
@@ -283,7 +301,7 @@ Reference: [LightGBM - Parameter Tuning](http://lightgbm.readthedocs.io/en/lates
 
 * **Training error** decreases as number of boosting rounds increases
 * But too many boosting rounds may lead to **overfitting**
-* A validation data set can be used to find out the optimal number of boosting rounds
+* A **<span style="color: rgb(18, 145, 81)">validation data set</span>** can be used to find out the optimal number of boosting rounds
 
 ```python
 evals_result = {}  # Use to store the metrics of each round on the validation set
@@ -307,16 +325,22 @@ booster = lgb.train(params,
 
 # Feature Importance
 
-feature_importance(importance_type='split', iteration=-1)[source]
+* The **<span style="color: rgb(18, 145, 81)">importance</span>** of each feature can be checked after a model has been trained
+* Check both **`"split"`** and **`"gain"`** importance type to understand how useful is each feature
 
-Get feature importances.
+```python
+# importance_type can be either "gain" (gain achieved by using the feature to split),
+# or "split" (number of times the feature is used to split)
+rank = zip(bst.feature_importance(importance_type="gain"), bst.feature_name())
+rank.sort(reverse=True)
+for score, f in rank[:50]:
+    print("%8.2f  %s" % (score, f))
 
-Parameters:importance_type (string, optional (default="split")) – How
-the importance is calculated. If “split”, result contains numbers of
-times the feature is used in a model. If “gain”, result contains total
-gains of splits which use the feature.
-Returns:result – Array with feature importances.
-Return type:numpy array
+#  5265.03  ps_car_13
+#  2460.84  ps_ind_05_cat
+#  2427.37  ps_reg_03
+# ...
+```
 
 ---
 
@@ -334,17 +358,12 @@ lgb.plot_importance(booster)
 # LGB: Parallelisation
 
 * LightGBM supports learning on <span style="color: #4466DD">multi-core</span>, <span style="color: #4466DD">multi-machine</span>, and <span style="color: #4466DD">GPU</span>
-
----
-
-# Installing GPU-enabled LightGBM
-
+* Check out documentation at [Parallel Learning Guide](https://github.com/Microsoft/LightGBM/blob/master/docs/Parallel-Learning-Guide.rst)
 * Method to install GPU-enabled LightGBM (worked on AWS GPU instance)<br/>
 (Ref: https://github.com/Microsoft/LightGBM/issues/715)
 
 ```bash
 $ git clone --recursive https://github.com/Microsoft/LightGBM
-
 $ cd ./LightGBM
 $ mkdir build; cd build
 
@@ -357,10 +376,21 @@ $ cd ../python-package; sudo python3 setup.py install --precompile
 
 ---
 
+# Other Tips
+
+* Use **randomised parameter search** instead of grid search is usually faster in discovering a good set of hyperparameters
+* Optimal hyperparameters largely depends on the **size and distribution** of the dataset, try a wider range of values in parameter search
+* **Combo features** are generally NOT necessary as decision trees can easily pick up combination of feature values
+
+---
+
 # References
 
 * Ben Gorman. [A Kaggle Master Explains Gradient Boosting](http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/). 2017
-
+* Cheng Li. [A Gentle Introduction to Graident Boosting](http://www.ccs.neu.edu/home/vip/teach/MLcourse/4_boosting/slides/gradient_boosting.pdf)
+* Tianqi Chen. [Introduction to Boosted Trees](https://homes.cs.washington.edu/~tqchen/pdf/BoostedTree.pdf)
+* Checko out the [FAQ Section](http://lightgbm.readthedocs.io/en/latest/FAQ.html) of the LightGBM documentation too!
+* [Laurae++ Interactive documentation](https://sites.google.com/view/lauraepp/parameters)
 
 ---
 
@@ -387,7 +417,7 @@ class: center, middle
         // Enable or disable counting of incremental slides in the slide counting
         countIncrementalSlides: true,
 
-        highlightStyle: "github"
+        highlightStyle: "zenburn"
         });
       // Setup MathJax
       MathJax.Hub.Config({
